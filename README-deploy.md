@@ -21,13 +21,13 @@ Use Render:
 - Set the start command: `npm start`
 - Add environment variables:
   - `SUPABASE_URL=<your-supabase-url>`
-  - `SUPABASE_SERVICE_ROLE_KEY=<your-supabase-service-role-key>`
+  - `SUPABASE_KEY=<your-supabase-publishable-key>`
 
 If env vars are not set, the app will run with local SQLite as a fallback for local testing.
 
 ## Supabase configuration
 
-Create a Supabase project and run this SQL in the SQL editor:
+Create a Supabase project and run the SQL in [supabase-schema.sql](supabase-schema.sql) in the Supabase SQL editor.
 
 ```sql
 create table if not exists app_data (

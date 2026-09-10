@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const { createClient } = require('@supabase/supabase-js');
@@ -6,11 +7,11 @@ const path = require('path');
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 const DB_PATH = path.join(__dirname, 'finance.db');
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const SUPABASE_URL = (process.env.SUPABASE_URL || '').replace(/\/rest\/v1\/?$/, '');
+const SUPABASE_KEY = process.env.SUPABASE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-const supabase = SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY
-  ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+const supabase = SUPABASE_URL && SUPABASE_KEY
+  ? createClient(SUPABASE_URL, SUPABASE_KEY)
   : null;
 
 app.use((req, res, next) => {
@@ -176,6 +177,6 @@ app.listen(PORT, () => {
   if (supabase) {
     console.log('Configured for Supabase public deployment.');
   } else {
-    console.log('Using local SQLite fallback. Add SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY for public deployment.');
+    console.log('Using local SQLite fallback. Add SUPABASE_URL + SUPABASE_KEY for public deployment.');
   }
 });
