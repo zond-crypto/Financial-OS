@@ -1,0 +1,6 @@
+node_modules/
+.venv/
+finance.db
+.env
+.env.*
+!.env.example
