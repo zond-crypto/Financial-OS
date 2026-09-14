@@ -309,10 +309,22 @@ const state = {
 
 function normalizeData(parsed) {
   if (!parsed) return defaultData();
+  const defaults = defaultData();
+  parsed.settings = {
+    ...defaults.settings,
+    ...(parsed.settings || {}),
+    healthWeights: {
+      ...defaults.settings.healthWeights,
+      ...((parsed.settings && parsed.settings.healthWeights) || {}),
+    },
+  };
+  parsed.categories = {
+    ...defaults.categories,
+    ...(parsed.categories || {}),
+  };
   if (!parsed.sinkingFunds) parsed.sinkingFunds = seedSinkingFunds();
   if (!parsed.accounts) parsed.accounts = seedAccounts();
   if (!parsed.recurring) parsed.recurring = seedRecurring();
-  if (!parsed.categories) parsed.categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
   if (!parsed.categories.Debt) parsed.categories.Debt = [...DEFAULT_CATEGORIES.Debt];
   parsed.accounts.forEach(a => {
     if (a.openingBalance === undefined || a.openingBalance === null) a.openingBalance = 0;
