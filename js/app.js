@@ -336,6 +336,7 @@ async function loadData() {
       const data = normalizeData(parsed);
       return data;
     }
+    console.warn('Backend returned an error; using local data fallback.');
   } catch (e) {
     console.warn('Backend unavailable, falling back to localStorage', e);
   }
